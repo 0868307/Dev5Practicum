@@ -1,6 +1,6 @@
 # Created by .gitignore support plugin (hsz.mobi)
 ### Java template
-*.class
+../../../bin/hro/infdev4/neo4jpracticum/Neo4j.class
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
