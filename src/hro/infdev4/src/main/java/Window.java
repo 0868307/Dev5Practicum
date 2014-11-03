@@ -1,12 +1,6 @@
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import hro.infdev4.neo4jpracticum.window.PersonList;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 public class Window extends JFrame {
 	private PersonList people = null;
