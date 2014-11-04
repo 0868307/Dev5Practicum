@@ -116,6 +116,7 @@ public class TestDB {
     }
 
     public static void main(String[] args) {
+        createObjectsOnInitDB();
         ExecutionEngine executionEngine = new ExecutionEngine(getGDB(),
                 StringLogger.logger(new File("logs/logdb.txt")));
         ExecutionResult result = executionEngine.execute("MATCH (e:RpgCharacter) RETURN e;");
