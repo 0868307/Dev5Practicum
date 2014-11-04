@@ -1,0 +1,40 @@
+{
+	"characters":{
+		"character":{
+			"name": "Arthas",
+			"class": "Death Knight",
+			"Level": "65",
+			"armor":{
+				"boots": "Chain Greaves of Unholy Power",
+				"chests": "Obsidian Chestguard of Unholy Sorrow",
+				"helmets": "Captain's Obsidian Greathelm",
+				"leggings": "Leggings of Dark Lands",
+				"pauldrons": "Demon Shoulderwraps of Demonic Nightmares"
+			}
+		},
+		"character":{
+			"name": "Jaina Proudmoore",
+			"class": "Mage",
+			"Level": "50",
+			"armor":{
+				"boots": "Greaves of Holy Hell",
+				"chests": "Bone Greatplate of Faded Magic",
+				"helmets": "Headcover of Conquered Justice",
+				"leggings": "Mourning Leggings of Blessed Fortune",
+				"pauldrons": "Ruby Infused Shoulders of the Daywalker"
+			}
+		},
+		"character":{
+			"name": "Muradin Bronzebeard",
+			"class": "Frost Dwarf",
+			"Level": "40",
+			"armor":{
+				"boots": "Whistling Warboots of the Mammoth",
+				"chests": "Bandit's Bone Batteplate",
+				"helmets": "Iron Visage of Infinite Voices",
+				"leggings": "Golden Kilt of Frozen Trials",
+				"pauldrons": "Knightly Iron Shoulders"
+			}
+		}
+	}
+}
