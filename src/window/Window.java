@@ -1,19 +1,17 @@
 package window;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import factory.RpgCharacterFactory;
 import pojos.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
 
 public class Window extends JFrame {
 
+
+        RpgCharacterFactory factory = new RpgCharacterFactory();
         public Window() {
             initComponents();
         }
@@ -43,7 +41,8 @@ public class Window extends JFrame {
             titlecharpanel = new JLabel();
             jScrollPane1 = new JScrollPane();
             charList = new JList<>();
-            selectbutton = new JButton();
+            selectButton = new JButton();
+            createButton = new JButton();
             jScrollBar1 = new JScrollBar();
             armorPanel = new JPanel();
             classLabel = new JLabel();
@@ -65,20 +64,33 @@ public class Window extends JFrame {
 
             charPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-            titlecharpanel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+            titlecharpanel.setFont(new Font("Tahoma", 0, 18)); // NOI18N
             titlecharpanel.setText("Characters");
 
             charList.setModel(new AbstractListModel() {
-                RpgCharacter[] rpgCharacters = { };
-                public int getSize() { return rpgCharacters.length; }
-                public Object getElementAt(int i) { return rpgCharacters[i]; }
+                RpgCharacter[] rpgCharacters = {};
+
+                public int getSize() {
+                    return rpgCharacters.length;
+                }
+
+                public Object getElementAt(int i) {
+                    return rpgCharacters[i];
+                }
             });
             jScrollPane1.setViewportView(charList);
 
-            selectbutton.setText("Select");
-            selectbutton.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    selectbuttonActionPerformed(evt);
+            selectButton.setText("Select");
+            selectButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    selectButtonActionPerformed(evt);
+                }
+            });
+
+            createButton.setText("Create");
+            createButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    createButtonActionPerformed(e);
                 }
             });
 
@@ -92,7 +104,9 @@ public class Window extends JFrame {
                                             .addComponent(titlecharpanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addGroup(charPanelLayout.createSequentialGroup()
                                                     .addGroup(charPanelLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                                            .addComponent(selectbutton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                            .addComponent(selectButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+
+                                                            .addComponent(createButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                             .addGroup(charPanelLayout.createSequentialGroup()
                                                                     .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
                                                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -110,7 +124,8 @@ public class Window extends JFrame {
                                             .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                                             .addComponent(jScrollBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(selectbutton)
+                                    .addComponent(selectButton)
+                                    .addComponent(createButton)
                                     .addContainerGap())
             );
             nameLabel.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
@@ -216,9 +231,15 @@ public class Window extends JFrame {
             pack();
         }
 
-        private void selectbuttonActionPerformed(java.awt.event.ActionEvent evt) {
+        private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {
             setCurrentchar(charList.getSelectedValue());
             fillLabels();
+        }
+        private void createButtonActionPerformed(java.awt.event.ActionEvent evt){
+            String naam = (String)JOptionPane.showInputDialog("Enter name");
+            String cls = (String)JOptionPane.showInputDialog("Enter class");
+            String level = (String)JOptionPane.showInputDialog("Enter level");
+            factory.createRpgCharacter(naam, cls, level);
         }
 
 
@@ -243,7 +264,8 @@ public class Window extends JFrame {
         private JLabel levelLabel;
         private JLabel nameField;
         private JLabel nameLabel;
-        private JButton selectbutton;
+        private JButton selectButton;
+        private JButton createButton;
         private JLabel titlecharpanel;
         private RpgCharacter currentchar;
         // End of variables declaration
