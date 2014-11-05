@@ -92,4 +92,5 @@ public class RpgCharacter {
                 ", level='" + level + '\'' +
                 '}';
     }
+
 }

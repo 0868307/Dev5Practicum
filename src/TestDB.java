@@ -4,8 +4,11 @@ import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.impl.util.StringLogger;
+import pojos.Boots;
+import pojos.RpgCharacter;
 import window.Window;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -75,9 +78,11 @@ public class TestDB {
     public static void main(String[] args) {
         createObjectsOnInitDB();
         new Window().setVisible(true);
+
         ExecutionEngine executionEngine = new ExecutionEngine(GraphDBController.getGDB(),
                 StringLogger.logger(new File("logs/logdb.txt")));
         ExecutionResult result = executionEngine.execute("MATCH (e) RETURN e;");
         System.out.println(result.dumpToString());
     }
+
 }
