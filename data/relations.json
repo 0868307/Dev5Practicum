@@ -36,5 +36,65 @@
 				"pauldrons": "Knightly Iron Shoulders"
 			}
 		}
+	},
+	"boots":{
+		"name": "Greaves of Holy Hell",
+		"name": "Footguards of Dark Whispers",
+		"name": "Chain Greaves of Unholy Power",
+		"name": "Bronze Treads of Twisted Damnation",
+		"name": "Holy Skeletal Feet",
+		"name": "Mended Ivory Stompers",
+		"name": "Mourning Bronzed Spurs",
+		"name": "Whistling Warboots of the Mammoth",
+		"name": "Zealous Walkers of Blessed Fortune",
+		"name": "Holy Sabatons of the Burning Sun"
+	}
+	"chests":{
+		"name": "Breastplate of Burning Fire",
+		"name": "Breastplate of Haunted Nightmares",
+		"name": "Bone Greatplate of Faded Magic",
+		"name": "Obsidian Chestguard of Unholy Sorrow",
+		"name": "Bandit's Bone Batteplate",
+		"name": "Ebon Chestpiece",
+		"name": "Singing Armor of Black Magic",
+		"name": "Twisted Armor of Hate",
+		"name": "Memory of Dishonor",
+		"name": "Fortune of Trust"
+	}
+	"helmets":{
+		"name": "Crown of Ominous Comrades",
+		"name": "Headcover of Conquered Justice",
+		"name": "Iron Visage of Infinite Voices",
+		"name": "Scaled Visage of Damned Fortunes",
+		"name": "Vindication Ebon Headcover",
+		"name": "Captain's Obsidian Greathelm",
+		"name": "Savage Gaze of the Fallen",
+		"name": "Primal Helmet of Assassins",
+		"name": "Cry of the Damned",
+		"name": "Terror of the Breaking Storm"
+	}
+	"leggings":{
+		"name": "Leggings of Dark Lands",
+		"name": "Legplates of Ancient Freedom",
+		"name": "Scaled Platelegs of Infernal Hells",
+		"name": "Golden Kilt of Frozen Trials",
+		"name": "Lusting Silver Skirt",
+		"name": "Honed Iron Kilt",
+		"name": "Mourning Leggings of Blessed Fortune",
+		"name": "Protector's Kilt of Guardians",
+		"name": "Tribute of the Lost",
+		"name": "Glory of Barriers"
+	}
+	"pauldrons":{
+		"name": "Shoulders of Eternal Misery",
+		"name": "Spaulders of Silent Fortunes",
+		"name": "Demon Shoulderwraps of Demonic Nightmares",
+		"name": "Ivory Shoulderwraps of Haunted Fortunes",
+		"name": "Knightly Iron Shoulders",
+		"name": "Soul Titanium Shoulderguards",
+		"name": "Ruby Infused Shoulders of the Daywalker",
+		"name": "Honed Mantle of the Immortals",
+		"name": "Blessing of Moonlight",
+		"name": "Token of the Beast"
 	}
 }
