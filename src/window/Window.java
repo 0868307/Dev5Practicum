@@ -403,6 +403,8 @@ public class Window extends JFrame {
         fillLabels();
     }
     private void deleteButtonActionPerformed(ActionEvent evt) {
+        TestDB.deleteNode(charList.getSelectedValue().getNode());
+        charList = updateRpgCharacters(charList);
     }
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt){
         String naam = (String)JOptionPane.showInputDialog("Enter name");

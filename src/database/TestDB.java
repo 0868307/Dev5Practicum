@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class TestDB {
@@ -147,9 +148,29 @@ public class TestDB {
     }
     public static void initRpgCharacter(RpgCharacter rpg, Node node)
     {
-        rpg.setName((String)node.getProperty("name"));
-        rpg.setClassName((String)node.getProperty("class"));
-        rpg.setLevel((String)node.getProperty("level"));
-
+        Transaction transaction = null;
+        try {
+            transaction = GraphDBController.getGDB().beginTx();
+            rpg.setName((String)node.getProperty("name"));
+            rpg.setClassName((String)node.getProperty("class"));
+            rpg.setLevel((String)node.getProperty("level"));
+            transaction.success();
+        } finally {
+            if (transaction != null) {
+                transaction.close();
+            }
+        }
+    }
+    public static void deleteNode(Node node) {
+        Transaction transaction = null;
+        try {
+            transaction = GraphDBController.getGDB().beginTx();
+            node.delete();
+            transaction.success();
+        } finally {
+            if (transaction != null) {
+                transaction.close();
+            }
+        }
     }
 }
