@@ -1,17 +1,26 @@
 package database;
 
+
 import org.neo4j.cypher.ExecutionEngine;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.traversal.Traverser;
+import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.kernel.impl.util.StringLogger;
+import pojos.Armor;
+import pojos.RpgCharacter;
+import scala.collection.Iterator;
+import scala.collection.immutable.List;
 import window.Window;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TestDB {
 
@@ -75,13 +84,17 @@ public class TestDB {
     }
 
     public static void main(String[] args) {
-        createObjectsOnInitDB();
         new Window().setVisible(true);
+
+    }
+    public static ExecutionResult getRpgCharacters()
+    {
 
         ExecutionEngine executionEngine = new ExecutionEngine(GraphDBController.getGDB(),
                 StringLogger.logger(new File("logs/logdb.txt")));
-        ExecutionResult result = executionEngine.execute("MATCH (e) RETURN e;");
-        System.out.println(result.dumpToString());
+        ExecutionResult result = executionEngine.execute("MATCH (e:RpgCharacter) RETURN e;");
+        return result;
     }
+
 
 }

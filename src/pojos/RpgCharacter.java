@@ -1,5 +1,11 @@
 package pojos;
 
+
+import database.GraphDBController;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
+import scala.collection.Iterator;
+
 /**
  * Created by darryl on 3-11-14.
  */
@@ -18,7 +24,26 @@ public class RpgCharacter {
         this.name = name;
         this.className = className;
         this.level = level;
+        System.out.println(name);
     }
+
+    public RpgCharacter(Node node) {
+        Transaction transaction = null;
+        try {
+            transaction = GraphDBController.getGDB().beginTx();
+
+            this.name = (String)node.getProperty("name");
+            this.className = (String)node.getProperty("class");
+            this.level = (String)node.getProperty("level");
+
+            transaction.success();
+        } finally {
+            if (transaction != null) {
+                transaction.close();
+            }
+        }
+    }
+
 
     public String getName() {
         return name;
@@ -86,11 +111,13 @@ public class RpgCharacter {
 
     @Override
     public String toString() {
-        return "RpgCharacter{" +
+        /*return "RpgCharacter{" +
                 "name='" + name + '\'' +
                 ", className='" + className + '\'' +
                 ", level='" + level + '\'' +
                 '}';
+                */
+        return name;
     }
 
 }

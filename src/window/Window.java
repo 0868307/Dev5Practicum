@@ -1,12 +1,19 @@
 package window;
 
+import database.GraphDBController;
+import database.TestDB;
 import factory.RpgCharacterFactory;
+import org.neo4j.cypher.ExecutionResult;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 import pojos.*;
+import scala.collection.Iterator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Window extends JFrame {
 
@@ -59,6 +66,7 @@ public class Window extends JFrame {
             chestField = new JLabel();
             legsField = new JLabel();
             feetField = new JLabel();
+
 
             setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -228,6 +236,7 @@ public class Window extends JFrame {
                             .addComponent(armorPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
+            initList();
             pack();
         }
 
@@ -240,8 +249,29 @@ public class Window extends JFrame {
             String cls = (String)JOptionPane.showInputDialog("Enter class");
             String level = (String)JOptionPane.showInputDialog("Enter level");
             factory.createRpgCharacter(naam, cls, level);
+            charList = updateRpgCharacters(charList);
         }
 
+        private void initList()
+        {
+            charList = updateRpgCharacters(charList);
+        }
+    public JList<RpgCharacter> updateRpgCharacters(JList<RpgCharacter> x)
+    {
+        ArrayList<RpgCharacter> rpgCharacters = new ArrayList<RpgCharacter>();
+        ExecutionResult result = TestDB.getRpgCharacters();
+        Iterator<Node> e_column = result.columnAs("e");
+        while(e_column.hasNext())
+        {
+
+            Node node = e_column.next();
+            rpgCharacters.add(new RpgCharacter(node));
+        }
+        x.setListData(rpgCharacters.toArray(new RpgCharacter[rpgCharacters.size()]));
+
+
+        return x;
+    }
 
 
         // Variables declaration - do not modify
@@ -286,8 +316,8 @@ public class Window extends JFrame {
     public void fillLabels() {
         if(currentchar!=null) {
             nameField.setText(getCurrentchar().getName());
-            levelField.setText(getCurrentchar().getLevel());
             classField.setText(getCurrentchar().getClassName());
+            levelField.setText(getCurrentchar().getLevel());
             headField.setText(getCurrentchar().getHelmet().getName());
             chestField.setText(getCurrentchar().getChestPlate().getName());
             legsField.setText(getCurrentchar().getLeggings().getName());

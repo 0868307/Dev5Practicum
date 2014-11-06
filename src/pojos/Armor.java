@@ -11,6 +11,10 @@ abstract public class Armor {
     }
 
     public String getName() {
+        if(name==null)
+        {
+            return "none";
+        }
         return name;
     }
 
