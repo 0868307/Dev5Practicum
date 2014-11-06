@@ -5,6 +5,7 @@ import database.TestDB;
 import factory.RpgCharacterFactory;
 import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 import pojos.*;
 import scala.collection.Iterator;
 
@@ -390,7 +391,8 @@ public class Window extends JFrame {
                         .addComponent(equipPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setCharList(updateRpgCharacters(charList));
+        initList();
+
         pack();
     }
 
@@ -411,24 +413,38 @@ public class Window extends JFrame {
     }
 
     private void headequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        getCurrentchar().setHelmet(new Helmet(headList.getSelectedValue().toString()));
+        TestDB.setRelationship(headList.getSelectedValue().toString(),getCurrentchar());
+        fillLabels();
     }
 
     private void chestequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        getCurrentchar().setChestPlate(new ChestPlate(chestList.getSelectedValue().toString()));
+        TestDB.setRelationship(chestList.getSelectedValue().toString(),getCurrentchar());
+        fillLabels();
     }
 
     private void legsequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        getCurrentchar().setLeggings(new Leggings(legsList.getSelectedValue().toString()));
+        TestDB.setRelationship(legsList.getSelectedValue().toString(),getCurrentchar());
+        fillLabels();
     }
     private void feetequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        getCurrentchar().setBoots(new Boots(feetList.getSelectedValue().toString()));
+        TestDB.setRelationship(feetList.getSelectedValue().toString(),getCurrentchar());
+        fillLabels();
     }
 
+
     private void initList()
-        {
-            charList = updateRpgCharacters(charList);
-        }
+    {
+        charList = updateRpgCharacters(charList);
+        headList = updateHelmet(headList);
+        chestList = updateChestPlate(chestList);
+        legsList = updateLeggings(legsList);
+        feetList = updateBoots(feetList);
+
+    }
     public JList<RpgCharacter> updateRpgCharacters(JList<RpgCharacter> x)
     {
         ArrayList<RpgCharacter> rpgCharacters = new ArrayList<RpgCharacter>();
@@ -446,8 +462,61 @@ public class Window extends JFrame {
         return x;
     }
 
+    public JList<Helmet> updateHelmet(JList<Helmet> x)
+    {
+        ArrayList<Helmet> array = new ArrayList<Helmet>();
+        ExecutionResult result = TestDB.getAllHelmet();
+        Iterator<Node> e_column = result.columnAs("e");
+        while(e_column.hasNext())
+        {
+            Node node = e_column.next();
+            array.add(new Helmet(node));
+        }
+        x.setListData(array.toArray(new Helmet[array.size()]));
+        return x;
+    }
+    public JList<ChestPlate> updateChestPlate(JList<ChestPlate> x)
+    {
+        ArrayList<ChestPlate> array = new ArrayList<ChestPlate>();
+        ExecutionResult result = TestDB.getAllChestPlate();
+        Iterator<Node> e_column = result.columnAs("e");
+        while(e_column.hasNext())
+        {
+            Node node = e_column.next();
+            array.add(new ChestPlate(node));
+        }
+        x.setListData(array.toArray(new ChestPlate[array.size()]));
+        return x;
+    }
+    public JList<Leggings> updateLeggings(JList<Leggings> x)
+    {
+        ArrayList<Leggings> array = new ArrayList<Leggings>();
+        ExecutionResult result = TestDB.getAllLeggings();
+        Iterator<Node> e_column = result.columnAs("e");
+        while(e_column.hasNext())
+        {
+            Node node = e_column.next();
+            array.add(new Leggings(node));
+        }
+        x.setListData(array.toArray(new Leggings[array.size()]));
+        return x;
+    }
+    public JList<Boots> updateBoots(JList<Boots> x)
+    {
+        ArrayList<Boots> array = new ArrayList<Boots>();
+        ExecutionResult result = TestDB.getAllBoots();
+        Iterator<Node> e_column = result.columnAs("e");
+        while(e_column.hasNext())
+        {
+            Node node = e_column.next();
+            array.add(new Boots(node));
+        }
+        x.setListData(array.toArray(new Boots[array.size()]));
+        return x;
+    }
 
-        // Variables declaration - do not modify
+
+    // Variables declaration - do not modify
         private JPanel armorPanel;
     private JPanel charPanel;
     private JLabel chestField;
@@ -500,19 +569,30 @@ public class Window extends JFrame {
         this.currentchar = _currentchar;
     }
 
-    public static void setCharList(JList<RpgCharacter> charList) {
-        Window.charList = charList;
-    }
 
     public void fillLabels() {
         if(currentchar!=null) {
-            nameField.setText(getCurrentchar().getName());
-            classField.setText(getCurrentchar().getClassName());
-            levelField.setText(getCurrentchar().getLevel());
-            headField.setText(getCurrentchar().getHelmet().getName());
-            chestField.setText(getCurrentchar().getChestPlate().getName());
-            legsField.setText(getCurrentchar().getLeggings().getName());
-            feetField.setText(getCurrentchar().getBoots().getName());
+            try {
+                nameField.setText(getCurrentchar().getName());
+            }catch(NullPointerException e){nameField.setText("None");}
+            try {
+                classField.setText(getCurrentchar().getClassName());
+            }catch(NullPointerException e){classField.setText("None");}
+            try {
+                levelField.setText(getCurrentchar().getLevel());
+            }catch(NullPointerException e){levelField.setText("None");}
+            try {
+                headField.setText(getCurrentchar().getHelmet().getName());
+            }catch(NullPointerException e){headField.setText("None");}
+            try {
+                chestField.setText(getCurrentchar().getChestPlate().getName());
+            }catch(NullPointerException e){chestField.setText("None");}
+            try {
+                legsField.setText(getCurrentchar().getLeggings().getName());
+            }catch(NullPointerException e){legsField.setText("None");}
+            try {
+                feetField.setText(getCurrentchar().getBoots().getName());
+            }catch(NullPointerException e){feetField.setText("None");}
         }
     }
 

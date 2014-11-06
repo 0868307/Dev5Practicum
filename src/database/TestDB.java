@@ -6,10 +6,14 @@ import org.neo4j.cypher.ExecutionResult;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphdb.index.IndexHits;
+import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.graphdb.traversal.Traverser;
 import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.kernel.impl.util.StringLogger;
 import pojos.Armor;
+import pojos.Helmet;
 import pojos.RpgCharacter;
 import scala.collection.Iterator;
 import scala.collection.immutable.List;
@@ -95,6 +99,57 @@ public class TestDB {
         ExecutionResult result = executionEngine.execute("MATCH (e:RpgCharacter) RETURN e;");
         return result;
     }
+    public static ExecutionResult getAllChestPlate()
+    {
 
+        ExecutionEngine executionEngine = new ExecutionEngine(GraphDBController.getGDB(),
+                StringLogger.logger(new File("logs/logdb.txt")));
+        ExecutionResult result = executionEngine.execute("MATCH (e:ChestPlate) RETURN e;");
+        return result;
+    }
+    public static ExecutionResult getAllHelmet()
+    {
 
+        ExecutionEngine executionEngine = new ExecutionEngine(GraphDBController.getGDB(),
+                StringLogger.logger(new File("logs/logdb.txt")));
+        ExecutionResult result = executionEngine.execute("MATCH (e:Helmet) RETURN e;");
+        return result;
+    }
+    public static ExecutionResult getAllLeggings()
+    {
+
+        ExecutionEngine executionEngine = new ExecutionEngine(GraphDBController.getGDB(),
+                StringLogger.logger(new File("logs/logdb.txt")));
+        ExecutionResult result = executionEngine.execute("MATCH (e:Leggings) RETURN e;");
+        return result;
+    }
+    public static ExecutionResult getAllBoots()
+    {
+
+        ExecutionEngine executionEngine = new ExecutionEngine(GraphDBController.getGDB(),
+                StringLogger.logger(new File("logs/logdb.txt")));
+        ExecutionResult result = executionEngine.execute("MATCH (e:Boots) RETURN e;");
+        return result;
+    }
+    public static Node getSingleItem(String name)
+    {
+        ExecutionEngine executionEngine = new ExecutionEngine(GraphDBController.getGDB(),
+                StringLogger.logger(new File("logs/logdb.txt")));
+        ExecutionResult result = executionEngine.execute("MATCH (e) RETURN e;");
+        Iterator<Node> it = result.columnAs("e");
+
+        Node node = it.next();
+        return node;
+    }
+    public static void setRelationship(String name, RpgCharacter rpg) {
+            getSingleItem(name).createRelationshipTo(rpg.getNode(), GraphDBController.RelTypes.BELONGS_TO);
+
+    }
+    public static void initRpgCharacter(RpgCharacter rpg, Node node)
+    {
+        rpg.setName((String)node.getProperty("name"));
+        rpg.setClassName((String)node.getProperty("class"));
+        rpg.setLevel((String)node.getProperty("level"));
+
+    }
 }

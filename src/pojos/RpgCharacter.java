@@ -2,6 +2,7 @@ package pojos;
 
 
 import database.GraphDBController;
+import database.TestDB;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import scala.collection.Iterator;
@@ -14,6 +15,7 @@ public class RpgCharacter {
     private String className;
     private String level;
 
+    private Node node;
     private Boots boots;
     private ChestPlate chestPlate;
     private Helmet helmet;
@@ -28,23 +30,11 @@ public class RpgCharacter {
     }
 
     public RpgCharacter(Node node) {
-        Transaction transaction = null;
-        try {
-            transaction = GraphDBController.getGDB().beginTx();
-
-            this.name = (String)node.getProperty("name");
-            this.className = (String)node.getProperty("class");
-            this.level = (String)node.getProperty("level");
-
-            transaction.success();
-        } finally {
-            if (transaction != null) {
-                transaction.close();
-            }
-        }
+        this.node = node;
+        TestDB.initRpgCharacter(this,node);
     }
 
-
+    public Node getNode(){return node;}
     public String getName() {
         return name;
     }
