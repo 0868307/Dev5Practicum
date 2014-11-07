@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class CharacterDAO extends DatabaseAccessObject {
     public static window.pojos.RpgCharacter getCharacterByName(String name) {
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("inputName", name);
         Transaction transaction = null;
         final window.pojos.RpgCharacter rpgCharacter = new window.pojos.RpgCharacter();
@@ -44,8 +44,8 @@ public class CharacterDAO extends DatabaseAccessObject {
         return rpgCharacter;
     }
 
-    public static List getAllCharacterNames() {
-        List<String> names = new ArrayList<String>();
+    public static List<String> getAllCharacterNames() {
+        List<String> names = new ArrayList<>();
         ExecutionResult result = getEngine().execute("MATCH (n:RpgCharacter) RETURN n.name");
         ResourceIterator<Node> nodes = result.columnAs("n.name");
         while (nodes.hasNext()) {
@@ -56,7 +56,7 @@ public class CharacterDAO extends DatabaseAccessObject {
 
     public static List getAllCharacters() {
         List<String> names = getAllCharacterNames();
-        List<window.pojos.RpgCharacter> characterList = new ArrayList<window.pojos.RpgCharacter>();
+        List<window.pojos.RpgCharacter> characterList = new ArrayList<>();
         for (String name : names) {
             characterList.add(getCharacterByName(name));
         }
@@ -81,7 +81,7 @@ public class CharacterDAO extends DatabaseAccessObject {
     }
 
     public static void giveItemToChar(window.pojos.RpgCharacter character, Armor item) {
-        Map<String, Object> charParams = new HashMap<String, Object>();
+        Map<String, Object> charParams = new HashMap<>();
         charParams.put("charName", character.getName());
         charParams.put("itemName", item.getName());
         charParams.put("itemClass", item.getClassName());

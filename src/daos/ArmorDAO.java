@@ -33,10 +33,10 @@ public class ArmorDAO extends DatabaseAccessObject {
 
     public static List<Armor> getAllItemsByCharacter(RpgCharacter character) {
         Transaction transaction = null;
-        List<Armor> items = new ArrayList<Armor>();
+        List<Armor> items = new ArrayList<>();
         try {
             transaction = getGraphDB().beginTx();
-            Map<String, Object> params = new HashMap<String, Object>();
+            Map<String, Object> params = new HashMap<>();
             params.put("inputName", character.getName());
             ExecutionResult result = getEngine().execute(
                     "MATCH (e:Armor)-[WORN_BY]->(c:RpgCharacter {name: {inputName}}) RETURN e", params);
@@ -62,7 +62,7 @@ public class ArmorDAO extends DatabaseAccessObject {
         List<Armor> items = new ArrayList<>();
         try {
             transaction = getGraphDB().beginTx();
-            Map<String, Object> params = new HashMap<String, Object>();
+            Map<String, Object> params = new HashMap<>();
             params.put("inputType", type);
             ExecutionResult result = getEngine().execute(
                     "MATCH (e:Armor {type: {inputType}}) RETURN e", params
@@ -95,6 +95,31 @@ public class ArmorDAO extends DatabaseAccessObject {
             ExecutionResult result = getEngine().execute(
                     "MATCH (e:Armor)-[WORN_BY{type: {inputType}}]-(c:RpgCharacter {name: {inputName}}) RETURN e", params);
             Iterator<Node> columns = result.columnAs("e");
+            for (Node node : IteratorUtil.asIterable(columns)) {
+                String strName = (String) node.getProperty("name");
+                String strType = (String) node.getProperty("type");
+                item = ArmorFactory.create(strType, strName);
+            }
+            transaction.success();
+        } finally {
+            if (transaction != null) {
+                transaction.close();
+            }
+        }
+        return item;
+    }
+
+    public static Armor getArmorByName(String name) {
+        Map<String, Object> charParams = new HashMap<>();
+        Armor item = null;
+        charParams.put("itemName", name);
+        Transaction transaction = null;
+        try {
+            transaction = getGraphDB().beginTx();
+            ExecutionResult result = getEngine().execute(
+                    "MATCH (n:Armor {name: {itemName}}) RETURN n", charParams
+            );
+            Iterator<Node> columns = result.columnAs("n");
             for (Node node : IteratorUtil.asIterable(columns)) {
                 String strName = (String) node.getProperty("name");
                 String strType = (String) node.getProperty("type");
