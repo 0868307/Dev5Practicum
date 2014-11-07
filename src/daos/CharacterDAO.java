@@ -100,6 +100,24 @@ public class CharacterDAO extends DatabaseAccessObject {
         }
     }
 
+    public static void removeArmorFromCharByType(window.pojos.RpgCharacter character, String type) {
+        Map<String, Object> charParams = new HashMap<String, Object>();
+        charParams.put("charName", character.getName());
+        charParams.put("itemName", type);
+        Transaction transaction = null;
+        try {
+            transaction = getGraphDB().beginTx();
+            getEngine().execute(
+                    "MATCH (n:Armor {name: {itemName}})-[r]->(e:RpgCharacter {name: {charName}}) DELETE r", charParams
+            );
+            transaction.success();
+        } finally {
+            if (transaction != null) {
+                transaction.close();
+            }
+        }
+    }
+
     public static void deleteCharByName(String name) {
         Map<String, Object> charParams = new HashMap<String, Object>();
         charParams.put("charname", name);
@@ -107,7 +125,7 @@ public class CharacterDAO extends DatabaseAccessObject {
         try {
             transaction = getGraphDB().beginTx();
             getEngine().execute(
-                    "MATCH (n {name: {charName}})-[r]-() DELETE n, r", charParams
+                    "MATCH (n:RpgCharacter {name: {charName}})-[r]-() DELETE n, r", charParams
             );
             transaction.success();
         } finally {

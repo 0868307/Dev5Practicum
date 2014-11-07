@@ -15,6 +15,12 @@ import java.util.*;
  * Created by darryl on 6-11-14.
  */
 public class ArmorDAO extends DatabaseAccessObject {
+    public static final String HELMET = "Helmet";
+    public static final String CHESTPLATE = "ChestPlate";
+    public static final String LEGGINGS = "Leggings";
+    public static final String BOOTS = "Boots";
+
+
     public static void createArmor(Armor armor) {
         Transaction transaction = null;
         try {
@@ -65,7 +71,7 @@ public class ArmorDAO extends DatabaseAccessObject {
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("inputType", type);
             ExecutionResult result = getEngine().execute(
-                    "MATCH (e:Armor {type: {inputType}}) RETURN e", params
+                    "MATCH (e:Armor {type: 'Boots'}) RETURN e", params
             );
             Armor item;
             Iterator<Node> columns = result.columnAs("e");
@@ -89,11 +95,11 @@ public class ArmorDAO extends DatabaseAccessObject {
         Armor item = null;
         try {
             transaction = getGraphDB().beginTx();
-            Map<String, Object> params = new HashMap<String, Object>();
+            Map<String, Object> params = new HashMap<>();
             params.put("inputName", character.getName());
             params.put("inputType", type);
             ExecutionResult result = getEngine().execute(
-                    "MATCH (e:Armor)-[WORN_BY{type: {inputType}}]->(c:RpgCharacter {name: {inputName}}) RETURN e", params);
+                    "MATCH (e:Armor)-[WORN_BY{type: {inputType}}]-(c:RpgCharacter {name: {inputName}}) RETURN e", params);
             Iterator<Node> columns = result.columnAs("e");
             for (Node node : IteratorUtil.asIterable(columns)) {
                 String strName = (String) node.getProperty("name");
@@ -107,5 +113,22 @@ public class ArmorDAO extends DatabaseAccessObject {
             }
         }
         return item;
+    }
+
+    public static void removeArmorByName(String name) {
+        Map<String, Object> charParams = new HashMap<>();
+        charParams.put("itemName", name);
+        Transaction transaction = null;
+        try {
+            transaction = getGraphDB().beginTx();
+            getEngine().execute(
+                    "MATCH (n:Armor {name: {itemName}})-[r]-() DELETE n, r", charParams
+            );
+            transaction.success();
+        } finally {
+            if (transaction != null) {
+                transaction.close();
+            }
+        }
     }
 }
