@@ -3,7 +3,7 @@ package consts;
 /**
  * Created by darryl on 7-11-14.
  */
-public interface Consts {
+public class Consts {
     public static final String HELMET = "Helmet";
     public static final String CHESTPLATE = "ChestPlate";
     public static final String LEGGINGS = "Leggings";

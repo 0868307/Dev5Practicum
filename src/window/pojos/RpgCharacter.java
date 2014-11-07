@@ -47,46 +47,6 @@ public class RpgCharacter {
         this.level = level;
     }
 
-    public Boots getBoots() {
-        return boots;
-    }
-
-    public void setBoots(Boots boots) {
-        this.boots = boots;
-    }
-
-    public Helmet getHelmet() {
-        return helmet;
-    }
-
-    public void setHelmet(Helmet helmet) {
-        this.helmet = helmet;
-    }
-
-    public ChestPlate getChestPlate() {
-        return chestPlate;
-    }
-
-    public void setChestPlate(ChestPlate chestPlate) {
-        this.chestPlate = chestPlate;
-    }
-
-    public Pauldrons getPauldrons() {
-        return pauldrons;
-    }
-
-    public void setPauldrons(Pauldrons pauldrons) {
-        this.pauldrons = pauldrons;
-    }
-
-    public Leggings getLeggings() {
-        return leggings;
-    }
-
-    public void setLeggings(Leggings leggings) {
-        this.leggings = leggings;
-    }
-
     @Override
     public String toString() {
         return "RpgCharacter{" +

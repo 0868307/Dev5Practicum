@@ -125,7 +125,7 @@ public class CharacterDAO extends DatabaseAccessObject {
         try {
             transaction = getGraphDB().beginTx();
             getEngine().execute(
-                    "MATCH (n:RpgCharacter {name: {charName}})-[r]-() DELETE n, r", charParams
+                    "MATCH (n:RpgCharacter {name: {charName}}) DELETE n", charParams
             );
             transaction.success();
         } finally {
@@ -142,7 +142,7 @@ public class CharacterDAO extends DatabaseAccessObject {
         try {
             transaction = getGraphDB().beginTx();
             getEngine().execute(
-                    "MATCH (n:RpgCharacter {name: {charName}})-[r]-() DELETE n, r", charParams
+                    "MATCH (n:RpgCharacter {name: {charName}})DELETE n", charParams
             );
             transaction.success();
         } finally {

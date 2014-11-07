@@ -1,12 +1,14 @@
 package window;
 
 
+import consts.Consts;
 import daos.ArmorDAO;
 import daos.CharacterDAO;
 import window.pojos.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Window extends JFrame {
@@ -394,32 +396,39 @@ public class Window extends JFrame {
         fillLabels();
     }
     private void deleteButtonActionPerformed(ActionEvent evt) {
+        System.out.println("*BEFORE* "+CharacterDAO.getAllCharacters().size() );
+        CharacterDAO.deleteChar(charList.getSelectedValue());
         charList = updateRpgCharacters(charList);
+        System.out.println("*AFTER* "+CharacterDAO.getAllCharacters().size());
     }
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt){
-        String naam = (String)JOptionPane.showInputDialog("Enter name");
-        String cls = (String)JOptionPane.showInputDialog("Enter class");
-        String level = (String)JOptionPane.showInputDialog("Enter level");
+        String naam = JOptionPane.showInputDialog("Enter name");
+        String cls = JOptionPane.showInputDialog("Enter class");
+        String level = JOptionPane.showInputDialog("Enter level");
         RpgCharacter rpgCharacter = new RpgCharacter(naam, cls, level);
         CharacterDAO.createRPGChar(rpgCharacter);
         charList = updateRpgCharacters(charList);
     }
 
     private void headequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        CharacterDAO.removeArmorFromCharByType(getCurrentchar(),Consts.HELMET);
         CharacterDAO.giveItemToChar(getCurrentchar(), headList.getSelectedValue());
         fillLabels();
     }
 
     private void chestequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        CharacterDAO.removeArmorFromCharByType(getCurrentchar(),Consts.CHESTPLATE);
         CharacterDAO.giveItemToChar(getCurrentchar(),chestList.getSelectedValue());
         fillLabels();
     }
 
     private void legsequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        CharacterDAO.removeArmorFromCharByType(getCurrentchar(),Consts.LEGGINGS);
         CharacterDAO.giveItemToChar(getCurrentchar(),legsList.getSelectedValue());
         fillLabels();
     }
     private void feetequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        CharacterDAO.removeArmorFromCharByType(getCurrentchar(),Consts.BOOTS);
         CharacterDAO.giveItemToChar(getCurrentchar(), feetList.getSelectedValue());
         fillLabels();
     }
@@ -437,32 +446,53 @@ public class Window extends JFrame {
     public JList<RpgCharacter> updateRpgCharacters(JList<RpgCharacter> x)
     {
         java.util.List characters = CharacterDAO.getAllCharacters();
-        x.setListData((RpgCharacter[])characters.toArray()[characters.size()]);
+        RpgCharacter[] list = new RpgCharacter[characters.size()];
+        for (int i=0;i<characters.size();i++) {
+            list[i] = (RpgCharacter)characters.get(i);
+        }
+        x.setListData(list);
         return x;
     }
 
     public JList<Helmet> updateHelmet(JList<Helmet> x)
     {
-        List helmets = ArmorDAO.getAllItemsByType("helmet");
-        x.setListData((Helmet[])helmets.toArray()[helmets.size()]);
+        List helmets = ArmorDAO.getAllItemsByType(Consts.HELMET);
+        Helmet[] list = new Helmet[helmets.size()];
+        for (int i=0;i<helmets.size();i++) {
+            list[i] = (Helmet)helmets.get(i);
+        }
+
+        x.setListData(list);
         return x;
     }
     public JList<ChestPlate> updateChestPlate(JList<ChestPlate> x)
     {
-        List chestPlate = ArmorDAO.getAllItemsByType("chestplate");
-        x.setListData((ChestPlate[])chestPlate.toArray()[chestPlate.size()]);
+        List chestPlate = ArmorDAO.getAllItemsByType(Consts.CHESTPLATE);
+        ChestPlate[] list = new ChestPlate[chestPlate.size()];
+        for (int i=0;i<chestPlate.size();i++) {
+            list[i] = (ChestPlate) chestPlate.get(i);
+        }
+        x.setListData(list);
         return x;
     }
     public JList<Leggings> updateLeggings(JList<Leggings> x)
     {
-        List leggings = ArmorDAO.getAllItemsByType("leggings");
-        x.setListData((Leggings[])leggings.toArray()[leggings.size()]);
+        List leggings = ArmorDAO.getAllItemsByType(Consts.LEGGINGS);
+        Leggings[] list = new Leggings[leggings.size()];
+        for (int i=0;i<leggings.size();i++) {
+            list[i] = (Leggings) leggings.get(i);
+        }
+        x.setListData(list);
         return x;
     }
     public JList<Boots> updateBoots(JList<Boots> x)
     {
-        List boots = ArmorDAO.getAllItemsByType("boots");
-        x.setListData((Boots[])boots.toArray()[boots.size()]);
+        List boots = ArmorDAO.getAllItemsByType(Consts.BOOTS);
+        Boots[] list = new Boots[boots.size()];
+        for (int i=0;i<boots.size();i++) {
+            list[i] = (Boots) boots.get(i);
+        }
+        x.setListData(list);
         return x;
     }
 
@@ -533,16 +563,16 @@ public class Window extends JFrame {
                 levelField.setText(getCurrentchar().getLevel());
             }catch(NullPointerException e){levelField.setText("None");}
             try {
-                headField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"helmet").getName());
+                headField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.HELMET).getName());
             }catch(NullPointerException e){headField.setText("None");}
             try {
-                chestField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"chestplate").getName());
+                chestField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.CHESTPLATE).getName());
             }catch(NullPointerException e){chestField.setText("None");}
             try {
-                legsField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"leggings").getName());
+                legsField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.LEGGINGS).getName());
             }catch(NullPointerException e){legsField.setText("None");}
             try {
-                feetField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"boots").getName());
+                feetField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.BOOTS).getName());
             }catch(NullPointerException e){feetField.setText("None");}
         }
     }

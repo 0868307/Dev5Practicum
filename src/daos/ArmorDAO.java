@@ -116,7 +116,7 @@ public class ArmorDAO extends DatabaseAccessObject {
         try {
             transaction = getGraphDB().beginTx();
             getEngine().execute(
-                    "MATCH (n:Armor {name: {itemName}})-[r]-() DELETE n, r", charParams
+                    "MATCH (n:Armor {name: {itemName}}) DELETE n", charParams
             );
             transaction.success();
         } finally {
