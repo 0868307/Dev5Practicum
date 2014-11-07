@@ -40,7 +40,7 @@ public class Window extends JFrame {
         charPanel = new JPanel();
         titlecharpanel = new JLabel();
         jScrollPane1 = new JScrollPane();
-        charList = new JList<RpgCharacter>();
+        charList = new JList();
         selectButton = new JButton();
         deleteButton = new JButton();
         createButton = new JButton();
@@ -397,7 +397,7 @@ public class Window extends JFrame {
     }
     private void deleteButtonActionPerformed(ActionEvent evt) {
         System.out.println("*BEFORE* "+CharacterDAO.getAllCharacters().size() );
-        CharacterDAO.deleteChar(charList.getSelectedValue());
+        CharacterDAO.deleteChar(CharacterDAO.getCharacterByName(charList.getSelectedValue()));
         charList = updateRpgCharacters(charList);
         System.out.println("*AFTER* "+CharacterDAO.getAllCharacters().size());
     }
@@ -412,24 +412,24 @@ public class Window extends JFrame {
 
     private void headequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
         CharacterDAO.removeArmorFromCharByType(getCurrentchar(),Consts.HELMET);
-        CharacterDAO.giveItemToChar(getCurrentchar(), headList.getSelectedValue());
+        CharacterDAO.giveItemToChar(getCurrentchar(), ArmorDAO.getArmorByName(headList.getSelectedValue()));
         fillLabels();
     }
 
     private void chestequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
         CharacterDAO.removeArmorFromCharByType(getCurrentchar(),Consts.CHESTPLATE);
-        CharacterDAO.giveItemToChar(getCurrentchar(),chestList.getSelectedValue());
+        CharacterDAO.giveItemToChar(getCurrentchar(),ArmorDAO.getArmorByName(chestList.getSelectedValue()));
         fillLabels();
     }
 
     private void legsequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
         CharacterDAO.removeArmorFromCharByType(getCurrentchar(),Consts.LEGGINGS);
-        CharacterDAO.giveItemToChar(getCurrentchar(),legsList.getSelectedValue());
+        CharacterDAO.giveItemToChar(getCurrentchar(),ArmorDAO.getArmorByName(legsList.getSelectedValue()));
         fillLabels();
     }
     private void feetequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
         CharacterDAO.removeArmorFromCharByType(getCurrentchar(),Consts.BOOTS);
-        CharacterDAO.giveItemToChar(getCurrentchar(), feetList.getSelectedValue());
+        CharacterDAO.giveItemToChar(getCurrentchar(), ArmorDAO.getArmorByName(feetList.getSelectedValue()));
         fillLabels();
     }
 
@@ -443,54 +443,54 @@ public class Window extends JFrame {
         feetList = updateBoots(feetList);
 
     }
-    public JList<RpgCharacter> updateRpgCharacters(JList<RpgCharacter> x)
+    public JList<String> updateRpgCharacters(JList<String> x)
     {
         java.util.List characters = CharacterDAO.getAllCharacters();
-        RpgCharacter[] list = new RpgCharacter[characters.size()];
+        String[] list = new String[characters.size()];
         for (int i=0;i<characters.size();i++) {
-            list[i] = (RpgCharacter)characters.get(i);
+            list[i] = ((RpgCharacter)characters.get(i)).getName();
         }
         x.setListData(list);
         return x;
     }
 
-    public JList<Helmet> updateHelmet(JList<Helmet> x)
+    public JList<String> updateHelmet(JList<String> x)
     {
         List helmets = ArmorDAO.getAllItemsByType(Consts.HELMET);
-        Helmet[] list = new Helmet[helmets.size()];
+        String[] list = new String[helmets.size()];
         for (int i=0;i<helmets.size();i++) {
-            list[i] = (Helmet)helmets.get(i);
+            list[i] = ((Helmet)helmets.get(i)).getName();
         }
 
         x.setListData(list);
         return x;
     }
-    public JList<ChestPlate> updateChestPlate(JList<ChestPlate> x)
+    public JList<String> updateChestPlate(JList<String> x)
     {
         List chestPlate = ArmorDAO.getAllItemsByType(Consts.CHESTPLATE);
-        ChestPlate[] list = new ChestPlate[chestPlate.size()];
+        String[] list = new String[chestPlate.size()];
         for (int i=0;i<chestPlate.size();i++) {
-            list[i] = (ChestPlate) chestPlate.get(i);
+            list[i] = ((ChestPlate) chestPlate.get(i)).getName();
         }
         x.setListData(list);
         return x;
     }
-    public JList<Leggings> updateLeggings(JList<Leggings> x)
+    public JList<String> updateLeggings(JList<String> x)
     {
         List leggings = ArmorDAO.getAllItemsByType(Consts.LEGGINGS);
-        Leggings[] list = new Leggings[leggings.size()];
+        String[] list = new String[leggings.size()];
         for (int i=0;i<leggings.size();i++) {
-            list[i] = (Leggings) leggings.get(i);
+            list[i] = ((Leggings) leggings.get(i)).getName();
         }
         x.setListData(list);
         return x;
     }
-    public JList<Boots> updateBoots(JList<Boots> x)
+    public JList<String> updateBoots(JList<String> x)
     {
         List boots = ArmorDAO.getAllItemsByType(Consts.BOOTS);
-        Boots[] list = new Boots[boots.size()];
+        String[] list = new String[boots.size()];
         for (int i=0;i<boots.size();i++) {
-            list[i] = (Boots) boots.get(i);
+            list[i] = ((Boots) boots.get(i)).getName();
         }
         x.setListData(list);
         return x;
@@ -533,11 +533,11 @@ public class Window extends JFrame {
     private JLabel nameLabel;
     private JButton selectButton;
     private JLabel titlecharpanel;
-    private static JList<RpgCharacter> charList;
-    private JList<Helmet> headList;
-    private JList<ChestPlate> chestList;
-    private JList<Leggings> legsList;
-    private JList<Boots> feetList;
+    private static JList<String> charList;
+    private JList<String> headList;
+    private JList<String> chestList;
+    private JList<String> legsList;
+    private JList<String> feetList;
     private RpgCharacter currentchar;
     // End of variables declaration
 
@@ -546,8 +546,8 @@ public class Window extends JFrame {
         return currentchar;
     }
 
-    public void setCurrentchar(RpgCharacter _currentchar) {
-        this.currentchar = _currentchar;
+    public void setCurrentchar(String _currentchar) {
+        this.currentchar = CharacterDAO.getCharacterByName(_currentchar);
     }
 
 
