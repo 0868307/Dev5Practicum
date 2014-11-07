@@ -15,12 +15,6 @@ import java.util.*;
  * Created by darryl on 6-11-14.
  */
 public class ArmorDAO extends DatabaseAccessObject {
-    public static final String HELMET = "Helmet";
-    public static final String CHESTPLATE = "ChestPlate";
-    public static final String LEGGINGS = "Leggings";
-    public static final String BOOTS = "Boots";
-
-
     public static void createArmor(Armor armor) {
         Transaction transaction = null;
         try {
@@ -71,7 +65,7 @@ public class ArmorDAO extends DatabaseAccessObject {
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("inputType", type);
             ExecutionResult result = getEngine().execute(
-                    "MATCH (e:Armor {type: 'Boots'}) RETURN e", params
+                    "MATCH (e:Armor {type: {inputType}}) RETURN e", params
             );
             Armor item;
             Iterator<Node> columns = result.columnAs("e");

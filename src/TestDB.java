@@ -1,5 +1,7 @@
 import daos.ArmorDAO;
+import daos.CharacterDAO;
 import window.pojos.Armor;
+import window.pojos.RpgCharacter;
 
 import java.util.List;
 
@@ -8,17 +10,12 @@ import java.util.List;
  */
 public class TestDB {
     public static void main(String[] args) {
-//        List<RpgCharacter> characters = CharacterDAO.getAllCharacters();
-//        for (RpgCharacter character : characters) {
-//            System.out.println(character);
-//            for (Armor armor : ArmorDAO.getAllItemsByCharacter(character)) {
-//                System.out.println(armor);
-//            }
-//        }
-        List<Armor> boots = ArmorDAO.getAllItemsByType(ArmorDAO.BOOTS);
-        System.out.println(boots.size());
-        for (Armor armor : boots) {
-            System.out.println(armor);
+        List<RpgCharacter> characters = CharacterDAO.getAllCharacters();
+        for (RpgCharacter character : characters) {
+            System.out.println(character);
+            for (Armor armor : ArmorDAO.getAllItemsByCharacter(character)) {
+                System.out.println(armor);
+            }
         }
     }
 }
