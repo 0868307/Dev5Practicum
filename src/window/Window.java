@@ -406,11 +406,11 @@ public class Window extends JFrame {
         String naam = JOptionPane.showInputDialog("Enter name");
         String cls = JOptionPane.showInputDialog("Enter class");
         String level = JOptionPane.showInputDialog("Enter level");
-        if(naam.length() > 12 || cls.length() > 12 || !level.matches("[0-9]+") || level.length() >2)
+        if(naam.length() > 12 || !naam.matches("[a-zA-Z]+") || cls.length() > 12 || !cls.matches("[a-zA-Z]+") || !level.matches("[0-9]+") || level.length() >2)
         {
             JOptionPane.showMessageDialog(getContentPane(),"Name should have less than 12 characters Class \n" +
-                    "should have less than 12 characters \n" +
-                    "Level should only contains numbers");
+                    "Class should have less than 12 characters \n" +
+                    "Level should only contains numbers \n");
         }
         else
         {

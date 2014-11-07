@@ -55,3 +55,6 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+dev5practicum.properties
+dev5practicum.xml
+module_dev5practicum.xml
