@@ -4,10 +4,13 @@ package window;
 import consts.Consts;
 import daos.ArmorDAO;
 import daos.CharacterDAO;
+import sun.awt.VerticalBagLayout;
 import window.pojos.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -396,18 +399,25 @@ public class Window extends JFrame {
         fillLabels();
     }
     private void deleteButtonActionPerformed(ActionEvent evt) {
-        System.out.println("*BEFORE* "+CharacterDAO.getAllCharacters().size() );
         CharacterDAO.deleteChar(CharacterDAO.getCharacterByName(charList.getSelectedValue()));
         charList = updateRpgCharacters(charList);
-        System.out.println("*AFTER* "+CharacterDAO.getAllCharacters().size());
     }
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt){
         String naam = JOptionPane.showInputDialog("Enter name");
         String cls = JOptionPane.showInputDialog("Enter class");
         String level = JOptionPane.showInputDialog("Enter level");
-        RpgCharacter rpgCharacter = new RpgCharacter(naam, cls, level);
-        CharacterDAO.createRPGChar(rpgCharacter);
-        charList = updateRpgCharacters(charList);
+        if(naam.length() > 12 || cls.length() > 12 || !level.matches("[0-9]+") || level.length() >2)
+        {
+            JOptionPane.showMessageDialog(getContentPane(),"Name should have less than 12 characters Class \n" +
+                    "should have less than 12 characters \n" +
+                    "Level should only contains numbers");
+        }
+        else
+        {
+            RpgCharacter rpgCharacter = new RpgCharacter(naam, cls, level);
+            CharacterDAO.createRPGChar(rpgCharacter);
+            charList = updateRpgCharacters(charList);
+        }
     }
 
     private void headequipButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -434,7 +444,7 @@ public class Window extends JFrame {
     }
 
     public void initFirstChar() {
-        setCurrentchar(((RpgCharacter)CharacterDAO.getAllCharacters().get(0)).getName());
+        setCurrentchar((CharacterDAO.getAllCharacters().get(0)).getName());
         fillLabels();
     }
     private void initList()
@@ -499,7 +509,40 @@ public class Window extends JFrame {
         return x;
     }
 
+    public RpgCharacter getCurrentchar() {
+        return currentchar;
+    }
 
+    public void setCurrentchar(String _currentchar) {
+        this.currentchar = CharacterDAO.getCharacterByName(_currentchar);
+    }
+
+
+    public void fillLabels() {
+        if(getCurrentchar()!=null) {
+            try {
+                nameField.setText(getCurrentchar().getName());
+            }catch(NullPointerException e){nameField.setText("None");}
+            try {
+                classField.setText(getCurrentchar().getClassName());
+            }catch(NullPointerException e){classField.setText("None");}
+            try {
+                levelField.setText(getCurrentchar().getLevel());
+            }catch(NullPointerException e){levelField.setText("None");}
+            try {
+                headField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.HELMET).getName());
+            }catch(NullPointerException e){headField.setText("None");}
+            try {
+                chestField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.CHESTPLATE).getName());
+            }catch(NullPointerException e){chestField.setText("None");}
+            try {
+                legsField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.LEGGINGS).getName());
+            }catch(NullPointerException e){legsField.setText("None");}
+            try {
+                feetField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.BOOTS).getName());
+            }catch(NullPointerException e){feetField.setText("None");}
+        }
+    }
     // Variables declaration - do not modify
     private JPanel armorPanel;
     private JPanel charPanel;
@@ -544,41 +587,6 @@ public class Window extends JFrame {
     private RpgCharacter currentchar;
     // End of variables declaration
 
-
-    public RpgCharacter getCurrentchar() {
-        return currentchar;
-    }
-
-    public void setCurrentchar(String _currentchar) {
-        this.currentchar = CharacterDAO.getCharacterByName(_currentchar);
-    }
-
-
-    public void fillLabels() {
-        if(getCurrentchar()!=null) {
-            try {
-                nameField.setText(getCurrentchar().getName());
-            }catch(NullPointerException e){nameField.setText("None");}
-            try {
-                classField.setText(getCurrentchar().getClassName());
-            }catch(NullPointerException e){classField.setText("None");}
-            try {
-                levelField.setText(getCurrentchar().getLevel());
-            }catch(NullPointerException e){levelField.setText("None");}
-            try {
-                headField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.HELMET).getName());
-            }catch(NullPointerException e){headField.setText("None");}
-            try {
-                chestField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.CHESTPLATE).getName());
-            }catch(NullPointerException e){chestField.setText("None");}
-            try {
-                legsField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.LEGGINGS).getName());
-            }catch(NullPointerException e){legsField.setText("None");}
-            try {
-                feetField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),Consts.BOOTS).getName());
-            }catch(NullPointerException e){feetField.setText("None");}
-        }
-    }
 
 }
 
