@@ -120,7 +120,24 @@ public class CharacterDAO extends DatabaseAccessObject {
 
     public static void deleteCharByName(String name) {
         Map<String, Object> charParams = new HashMap<>();
-        charParams.put("charname", name);
+        charParams.put("charName", name);
+        Transaction transaction = null;
+        try {
+            transaction = getGraphDB().beginTx();
+            getEngine().execute(
+                    "MATCH (n:RpgCharacter {name: {charName}})-[r]-() DELETE n, r", charParams
+            );
+            transaction.success();
+        } finally {
+            if (transaction != null) {
+                transaction.close();
+            }
+        }
+    }
+
+    public static void deleteChar(window.pojos.RpgCharacter character) {
+        Map<String, Object> charParams = new HashMap<>();
+        charParams.put("charName", character.getName());
         Transaction transaction = null;
         try {
             transaction = getGraphDB().beginTx();
