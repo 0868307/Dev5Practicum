@@ -54,7 +54,7 @@ public class CharacterDAO extends DatabaseAccessObject {
         return names;
     }
 
-    public static List getAllCharacters() {
+    public static List<window.pojos.RpgCharacter> getAllCharacters() {
         List<String> names = getAllCharacterNames();
         List<window.pojos.RpgCharacter> characterList = new ArrayList<>();
         for (String name : names) {
