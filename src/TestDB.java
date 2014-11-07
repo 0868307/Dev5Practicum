@@ -1,4 +1,3 @@
-import consts.Consts;
 import daos.ArmorDAO;
 import daos.CharacterDAO;
 import window.pojos.Armor;
@@ -18,6 +17,5 @@ public class TestDB {
                 System.out.println(armor);
             }
         }
-        System.out.println(Consts.BOOTS);
     }
 }

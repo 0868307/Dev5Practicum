@@ -59,7 +59,7 @@ public class ArmorDAO extends DatabaseAccessObject {
 
     public static List<Armor> getAllItemsByType(String type) {
         Transaction transaction = null;
-        List<Armor> items = new ArrayList<Armor>();
+        List<Armor> items = new ArrayList<>();
         try {
             transaction = getGraphDB().beginTx();
             Map<String, Object> params = new HashMap<String, Object>();
