@@ -48,7 +48,7 @@
 		"name": "Whistling Warboots of the Mammoth",
 		"name": "Zealous Walkers of Blessed Fortune",
 		"name": "Holy Sabatons of the Burning Sun"
-	}
+	},
 	"chests":{
 		"name": "Breastplate of Burning Fire",
 		"name": "Breastplate of Haunted Nightmares",
@@ -60,7 +60,7 @@
 		"name": "Twisted Armor of Hate",
 		"name": "Memory of Dishonor",
 		"name": "Fortune of Trust"
-	}
+	},
 	"helmets":{
 		"name": "Crown of Ominous Comrades",
 		"name": "Headcover of Conquered Justice",
@@ -72,7 +72,7 @@
 		"name": "Primal Helmet of Assassins",
 		"name": "Cry of the Damned",
 		"name": "Terror of the Breaking Storm"
-	}
+	},
 	"leggings":{
 		"name": "Leggings of Dark Lands",
 		"name": "Legplates of Ancient Freedom",
@@ -84,7 +84,7 @@
 		"name": "Protector's Kilt of Guardians",
 		"name": "Tribute of the Lost",
 		"name": "Glory of Barriers"
-	}
+	},
 	"pauldrons":{
 		"name": "Shoulders of Eternal Misery",
 		"name": "Spaulders of Silent Fortunes",
