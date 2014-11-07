@@ -1,22 +1,15 @@
 package window;
 
 
-
 import daos.ArmorDAO;
 import daos.CharacterDAO;
 import window.pojos.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
 import java.util.List;
 
 public class Window extends JFrame {
-
-
-    RpgCharacterFactory factory = new RpgCharacterFactory();
     public Window() {
         initComponents();
     }
@@ -540,16 +533,16 @@ public class Window extends JFrame {
                 levelField.setText(getCurrentchar().getLevel());
             }catch(NullPointerException e){levelField.setText("None");}
             try {
-                headField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"helmet"));
+                headField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"helmet").getName());
             }catch(NullPointerException e){headField.setText("None");}
             try {
-                chestField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"chestplate"));
+                chestField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"chestplate").getName());
             }catch(NullPointerException e){chestField.setText("None");}
             try {
-                legsField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"leggings"));
+                legsField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"leggings").getName());
             }catch(NullPointerException e){legsField.setText("None");}
             try {
-                feetField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"boots"));
+                feetField.setText(ArmorDAO.getCharacterArmorByType(getCurrentchar(),"boots").getName());
             }catch(NullPointerException e){feetField.setText("None");}
         }
     }

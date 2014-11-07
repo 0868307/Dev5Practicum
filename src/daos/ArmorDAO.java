@@ -33,10 +33,10 @@ public class ArmorDAO extends DatabaseAccessObject {
 
     public static List<Armor> getAllItemsByCharacter(RpgCharacter character) {
         Transaction transaction = null;
-        List<Armor> items = new ArrayList<>();
+        List<Armor> items = new ArrayList<Armor>();
         try {
             transaction = getGraphDB().beginTx();
-            Map<String, Object> params = new HashMap<>();
+            Map<String, Object> params = new HashMap<String, Object>();
             params.put("inputName", character.getName());
             ExecutionResult result = getEngine().execute(
                     "MATCH (e:Armor)-[WORN_BY]->(c:RpgCharacter {name: {inputName}}) RETURN e", params);
@@ -55,5 +55,57 @@ public class ArmorDAO extends DatabaseAccessObject {
             }
         }
         return items;
+    }
+
+    public static List<Armor> getAllItemsByType(String type) {
+        Transaction transaction = null;
+        List<Armor> items = new ArrayList<Armor>();
+        try {
+            transaction = getGraphDB().beginTx();
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("inputType", type);
+            ExecutionResult result = getEngine().execute(
+                    "MATCH (e:Armor {type: {inputType}}) RETURN e", params
+            );
+            Armor item;
+            Iterator<Node> columns = result.columnAs("e");
+            for (Node node : IteratorUtil.asIterable(columns)) {
+                String strName = (String) node.getProperty("name");
+                String strType = (String) node.getProperty("type");
+                item = ArmorFactory.create(strType, strName);
+                items.add(item);
+            }
+            transaction.success();
+        } finally {
+            if (transaction != null) {
+                transaction.close();
+            }
+        }
+        return items;
+    }
+
+    public static Armor getCharacterArmorByType(RpgCharacter character, String type) {
+        Transaction transaction = null;
+        Armor item = null;
+        try {
+            transaction = getGraphDB().beginTx();
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("inputName", character.getName());
+            params.put("inputType", type);
+            ExecutionResult result = getEngine().execute(
+                    "MATCH (e:Armor)-[WORN_BY{type: {inputType}}]->(c:RpgCharacter {name: {inputName}}) RETURN e", params);
+            Iterator<Node> columns = result.columnAs("e");
+            for (Node node : IteratorUtil.asIterable(columns)) {
+                String strName = (String) node.getProperty("name");
+                String strType = (String) node.getProperty("type");
+                item = ArmorFactory.create(strType, strName);
+            }
+            transaction.success();
+        } finally {
+            if (transaction != null) {
+                transaction.close();
+            }
+        }
+        return item;
     }
 }

@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class CharacterDAO extends DatabaseAccessObject {
     public static window.pojos.RpgCharacter getCharacterByName(String name) {
-        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<String, Object>();
         params.put("inputName", name);
         Transaction transaction = null;
         final window.pojos.RpgCharacter rpgCharacter = new window.pojos.RpgCharacter();
@@ -45,7 +45,7 @@ public class CharacterDAO extends DatabaseAccessObject {
     }
 
     public static List getAllCharacterNames() {
-        List<String> names = new ArrayList<>();
+        List<String> names = new ArrayList<String>();
         ExecutionResult result = getEngine().execute("MATCH (n:RpgCharacter) RETURN n.name");
         ResourceIterator<Node> nodes = result.columnAs("n.name");
         while (nodes.hasNext()) {
@@ -56,7 +56,7 @@ public class CharacterDAO extends DatabaseAccessObject {
 
     public static List getAllCharacters() {
         List<String> names = getAllCharacterNames();
-        List<window.pojos.RpgCharacter> characterList = new ArrayList<>();
+        List<window.pojos.RpgCharacter> characterList = new ArrayList<window.pojos.RpgCharacter>();
         for (String name : names) {
             characterList.add(getCharacterByName(name));
         }
@@ -81,7 +81,7 @@ public class CharacterDAO extends DatabaseAccessObject {
     }
 
     public static void giveItemToChar(window.pojos.RpgCharacter character, Armor item) {
-        Map<String, Object> charParams = new HashMap<>();
+        Map<String, Object> charParams = new HashMap<String, Object>();
         charParams.put("charName", character.getName());
         charParams.put("itemName", item.getName());
         charParams.put("itemClass", item.getClassName());
@@ -92,6 +92,23 @@ public class CharacterDAO extends DatabaseAccessObject {
                     "MATCH (char:RpgCharacter {name: {charName}})" +
                     "MATCH (armor:Armor {name: {itemName}})" +
                     "CREATE UNIQUE (armor)-[:WORN_BY {type: {itemClass}}]->(char)", charParams);
+            transaction.success();
+        } finally {
+            if (transaction != null) {
+                transaction.close();
+            }
+        }
+    }
+
+    public static void deleteCharByName(String name) {
+        Map<String, Object> charParams = new HashMap<String, Object>();
+        charParams.put("charname", name);
+        Transaction transaction = null;
+        try {
+            transaction = getGraphDB().beginTx();
+            getEngine().execute(
+                    "MATCH (n {name: {charName}})-[r]-() DELETE n, r", charParams
+            );
             transaction.success();
         } finally {
             if (transaction != null) {
