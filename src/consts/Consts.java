@@ -1,3 +1,5 @@
+package consts;
+
 /**
  * Created by darryl on 7-11-14.
  */
