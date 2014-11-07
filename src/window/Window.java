@@ -385,7 +385,7 @@ public class Window extends JFrame {
         );
 
         initList();
-
+        initFirstChar();
         pack();
     }
 
@@ -433,7 +433,10 @@ public class Window extends JFrame {
         fillLabels();
     }
 
-
+    public void initFirstChar() {
+        setCurrentchar(((RpgCharacter)CharacterDAO.getAllCharacters().get(0)).getName());
+        fillLabels();
+    }
     private void initList()
     {
         charList = updateRpgCharacters(charList);
